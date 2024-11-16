@@ -240,7 +240,8 @@ object Renderer3d {
         Renderer.pushMatrix()
         Renderer.translate(renderPos.x, renderPos.y, renderPos.z)
         Renderer.multiply(camera.rotation)
-        Renderer.scale(-lScale, -lScale, lScale)
+        Renderer.scale(lScale, -lScale, -lScale)
+        Renderer.disableCull()
 
         if (renderThroughBlocks) {
             Renderer.depthMask(true)
@@ -301,6 +302,7 @@ object Renderer3d {
         if (renderThroughBlocks) {
             Renderer.depthFunc(GL11.GL_LEQUAL)
         }
+        Renderer.enableCull()
         Renderer.popMatrix()
     }
 
