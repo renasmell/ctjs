@@ -129,8 +129,12 @@ object ConsoleHostProcess : Initializer {
 
                     when (val message = Json.decodeFromString<C2HMessage>(messageText)) {
                         is EvalTextMessage -> {
-                            val result = JSLoader.eval(message.string) ?: continue
-                            trySendMessage(EvalResultMessage(message.id, result))
+                            try {
+                                val result = JSLoader.eval(message.string)
+                                trySendMessage(EvalResultMessage(message.id, result))
+                            } catch (exception: Exception) {
+                                this.printStackTrace(exception);
+                            }
                         }
                         is FontSizeMessage -> {
                             val newValue = Config.consoleFontSize + message.delta
